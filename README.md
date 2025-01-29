@@ -1,36 +1,45 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
-
-## Getting Started
-
-First, run the development server:
+## 프로젝트 실행 방법
 
 ```bash
+# 패키지 설치
+npm install
+
+# 개발 서버 실행
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 기술 스택
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Framework & Language
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+- Next.js 13.5.8 (App Router)
+- TypeScript
+- React 18
 
-## Learn More
+### 상태 관리
 
-To learn more about Next.js, take a look at the following resources:
+- Zustand (클라이언트 상태)
+- React Query (서버 상태)
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### 스타일링
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+- Tailwind CSS
+- clsx & tailwind-merge (조건부 스타일링)
 
-## Deploy on Vercel
+## 프로젝트 구조
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+```
+src/
+├── app/          # Next.js App Router
+│   ├── api/      # API Route
+│   └── layout.ts # 루트 레이아웃
+├── assets/       # 이미지, 아이콘 등 정적 파일
+├── components/   # 리액트 컴포넌트
+│   ├── common/   # 공통 컴포넌트
+│   ├── faq/      # FAQ 관련 컴포넌트
+│   └── layout/   # 레이아웃 컴포넌트
+├── hooks/        # 커스텀 훅
+├── lib/          # 유틸리티 함수
+├── store/        # Zustand 스토어
+└── types/        # TypeScript 타입 정의
+```
