@@ -3,9 +3,25 @@
 @tailwind utilities;
 
 :root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
+  --max-width: 1660px;
+  --line-height-sm: 1.4;
+  --line-height-md: 1.6;
+  --line-height-lg: 1.8;
+  --cubic-bezier-primary: cubic-bezier(1, 0, 0.2, 1);
+  --mint-900: #70d7bf;
+  --mint-700: #8ddfcc;
+  --midnight-900: #05141f;
+  --midnight-100: #cdd0d2;
+  --red: #ff0900;
+  --blue: #4296e4;
+  --gray-700: #37434c;
+  --gray-500: #697278;
+  --gray-400: #82898f;
+  --gray-300: #b4b9bc;
+  --gray-200: #cdd0d2;
+  --gray-100: #e6e8e9;
+  --gray-50: #f6f6f9;
+  --gray-10: #f8f8f8;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -18,10 +34,6 @@
 
 body {
   color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
+  background: linear-gradient(to bottom, transparent, rgb(var(--background-end-rgb)))
     rgb(var(--background-start-rgb));
 }
