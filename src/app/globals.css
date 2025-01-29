@@ -63,3 +63,36 @@ body {
     rgb(var(--background-start-rgb));
   font-family: var(--font-kia);
 }
+
+/* FAQ 리스트 스타일 */
+.faq-list {
+  @apply space-y-4;
+}
+
+.faq-list li {
+  @apply bg-white rounded-2xl overflow-hidden;
+}
+
+.faq-list h4.a button {
+  @apply w-full px-8 py-6 text-left flex items-center gap-2;
+}
+
+.faq-list h4.a button em {
+  @apply text-mint-900 font-medium text-[15px] not-italic;
+}
+
+.faq-list h4.a button strong {
+  @apply text-[20px] font-bold text-midnight-900 ml-auto;
+}
+
+.faq-list .q {
+  @apply border-t border-gray-100 p-8;
+}
+
+.faq-list .q .inner {
+  @apply space-y-2;
+}
+
+.faq-list .q .inner p {
+  @apply text-[13pt] text-[#6A7A87] break-keep;
+}
