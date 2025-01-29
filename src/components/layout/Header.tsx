@@ -19,12 +19,12 @@ export function Header() {
   return (
     <header className='fixed left-0 right-0 top-0 z-[100] h-[72px]'>
       <div className='inner relative mx-auto flex h-full max-w-[1660px] items-center justify-between px-8'>
-        {/* 로고 */}
+   
         <Link href='/' className='logo relative z-[101]'>
           <Image src={Logo} alt='Wible BIZ' width={160} height={48} priority />
         </Link>
 
-        {/* 메인 네비게이션 */}
+  
         <nav className='hidden h-full md:block'>
           <ul className='flex h-full'>
             {menuItems.map((item) => (
@@ -49,7 +49,7 @@ export function Header() {
           </ul>
         </nav>
 
-        {/* 모바일 메뉴 버튼 */}
+
         <span className='util relative z-[101] md:hidden'>
           <button
             type='button'
@@ -81,7 +81,7 @@ export function Header() {
           </button>
         </span>
 
-        {/* 모바일 메뉴 */}
+    
         {isMenuOpen && (
           <div className='fixed inset-0 top-[72px] z-[100] bg-white md:hidden'>
             <nav className='border-t border-gray-200'>
