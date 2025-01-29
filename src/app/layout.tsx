@@ -2,8 +2,30 @@ import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import './globals.css';
 import { Header } from '@/components/layout/Header';
+import localFont from 'next/font/local';
 
 const inter = Inter({ subsets: ['latin'] });
+
+const kiaSignature = localFont({
+  src: [
+    {
+      path: './font/OTF/KiaSignatureFixOTFLight.otf',
+      weight: '400',
+      style: 'normal',
+    },
+    {
+      path: './font/OTF/KiaSignatureFixOTFRegular.otf',
+      weight: '500',
+      style: 'normal',
+    },
+    {
+      path: './font/OTF/KiaSignatureFixOTFBold.otf',
+      weight: '600',
+      style: 'normal',
+    },
+  ],
+  variable: '--font-kia',
+});
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://wiblebiz.kia.com'),
@@ -49,7 +71,6 @@ export const metadata: Metadata = {
     title: '위블 비즈(Wible Biz)',
     description:
       '위블 비즈는 기업을 위한 친환경 모빌리티 서비스로 차량부터 전용 App/Web까지 업무차량 토탈 솔루션을 제공합니다.',
-    images: ['/images/wb_sns_default.jpg'],
   },
 };
 
@@ -60,7 +81,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang='ko'>
-      <body className={inter.className}>
+      <body className={`${kiaSignature.variable} font-kia`}>
         <Header />
         <div className='pt-16'>{children}</div>
       </body>

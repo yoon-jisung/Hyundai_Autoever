@@ -2,6 +2,30 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer base {
+  @font-face {
+    font-family: 'Kia Signature Fix';
+    src: url('/font/OTF/KiaSignatureFixOTFLight.otf') format('opentype');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+  }
+  @font-face {
+    font-family: 'Kia Signature Fix';
+    src: url('/font/OTF/KiaSignatureFixOTFRegular.otf') format('opentype');
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+  }
+  @font-face {
+    font-family: 'Kia Signature Fix';
+    src: url('/font/OTF/KiaSignatureFixOTFBold.otf') format('opentype');
+    font-weight: 600;
+    font-style: normal;
+    font-display: swap;
+  }
+}
+
 :root {
   --max-width: 1660px;
   --line-height-sm: 1.4;
@@ -22,6 +46,7 @@
   --gray-100: #e6e8e9;
   --gray-50: #f6f6f9;
   --gray-10: #f8f8f8;
+  --font-kia: 'Kia Signature Fix', Arial, Helvetica, sans-serif;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -36,4 +61,5 @@ body {
   color: rgb(var(--foreground-rgb));
   background: linear-gradient(to bottom, transparent, rgb(var(--background-end-rgb)))
     rgb(var(--background-start-rgb));
+  font-family: var(--font-kia);
 }
