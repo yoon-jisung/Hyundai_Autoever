@@ -1,15 +1,16 @@
 import { create } from 'zustand';
+import { TabType } from '@/types/faq';
 
 interface FaqStore {
-  selectedCategory: number;
-  setSelectedCategory: (id: number) => void;
-  activeTab: 'intro' | 'usage';
-  setActiveTab: (tab: 'intro' | 'usage') => void;
+  selectedCategory: string;
+  setSelectedCategory: (id: string) => void;
+  activeTab: TabType;
+  setActiveTab: (tab: TabType) => void;
 }
 
 export const useFaqStore = create<FaqStore>((set) => ({
-  selectedCategory: 0,
+  selectedCategory: 'ALL',
   setSelectedCategory: (id) => set({ selectedCategory: id }),
-  activeTab: 'intro',
-  setActiveTab: (tab) => set({ activeTab: tab, selectedCategory: 0 }),
+  activeTab: 'CONSULT',
+  setActiveTab: (tab) => set({ activeTab: tab, selectedCategory: 'ALL' }),
 }));

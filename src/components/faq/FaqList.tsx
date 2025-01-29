@@ -1,8 +1,10 @@
 'use client';
 
-import { useState } from 'react';
+import { useQuery } from '@tanstack/react-query';
 import { useFaqStore } from '@/store/faq';
 import { cn } from '@/lib/utils';
+import { getFaqs } from '@/api/faq';
+import { useState, Suspense } from 'react';
 
 interface FaqItem {
   id: number;
@@ -197,85 +199,87 @@ const faqItems: FaqItem[] = [
 ];
 
 export function FaqList() {
-  const { selectedCategory } = useFaqStore();
+  const { selectedCategory, activeTab } = useFaqStore();
   const [openItemId, setOpenItemId] = useState<number | null>(null);
   const [visibleCount, setVisibleCount] = useState(10);
 
-  const filteredItems =
-    selectedCategory === 0
-      ? faqItems
-      : faqItems.filter((item) => item.categoryId === selectedCategory);
+  const { data: faqData } = useQuery({
+    queryKey: ['faqs', activeTab, selectedCategory, visibleCount],
+    queryFn: () => getFaqs(activeTab, 0, visibleCount, selectedCategory),
+  });
 
-  const visibleItems = filteredItems.slice(0, visibleCount);
-  const hasMore = filteredItems.length > visibleCount;
+  const hasMore = faqData ? faqData.pageInfo.totalRecord > visibleCount : false;
 
   const handleLoadMore = () => {
     setVisibleCount((prev) => prev + 10);
   };
 
   return (
-    <div>
-      <ul className='space-y-4 border-t-2 border-gray-900'>
-        {visibleItems.map((item) => (
-          <li key={item.id} className='overflow-hidden bg-white border-t border-gray-100'>
-            <button
-              type='button'
-              onClick={() => setOpenItemId(openItemId === item.id ? null : item.id)}
-              className='flex w-full items-center justify-between px-8 py-6 text-left'
-            >
-              <span className='text-[20px] font-bold text-midnight-900'>{item.question}</span>
-              <span
+    <Suspense fallback={<div></div>}>
+      <div>
+        <ul className='space-y-4 border-t-2 border-gray-900'>
+          {faqData?.items.map((item) => (
+            <li key={item.id} className='overflow-hidden bg-white border-t border-gray-100'>
+              <button
+                type='button'
+                onClick={() => setOpenItemId(openItemId === item.id ? null : item.id)}
+                className='flex w-full items-center justify-between px-8 py-6 text-left'
+              >
+                <span className='text-[20px] font-bold text-midnight-900'>{item.question}</span>
+                <span
+                  className={cn(
+                    'ml-4 text-gray-400 transition-transform duration-300',
+                    openItemId === item.id ? 'rotate-180' : ''
+                  )}
+                >
+                  <svg
+                    width='24'
+                    height='24'
+                    viewBox='0 0 24 24'
+                    fill='none'
+                    xmlns='http://www.w3.org/2000/svg'
+                  >
+                    <path
+                      d='M6 9L12 15L18 9'
+                      stroke='currentColor'
+                      strokeWidth='2'
+                      strokeLinecap='round'
+                      strokeLinejoin='round'
+                    />
+                  </svg>
+                </span>
+              </button>
+              <div
                 className={cn(
-                  'ml-4 text-gray-400 transition-transform duration-300',
-                  openItemId === item.id ? 'rotate-180' : ''
+                  'grid transition-all duration-300 ease-in-out',
+                  openItemId === item.id ? 'grid-rows-[1fr]' : 'grid-rows-[0fr]'
                 )}
               >
-                <svg
-                  width='24'
-                  height='24'
-                  viewBox='0 0 24 24'
-                  fill='none'
-                  xmlns='http://www.w3.org/2000/svg'
-                >
-                  <path
-                    d='M6 9L12 15L18 9'
-                    stroke='currentColor'
-                    strokeWidth='2'
-                    strokeLinecap='round'
-                    strokeLinejoin='round'
-                  />
-                </svg>
-              </span>
-            </button>
-            <div
-              className={cn(
-                'grid transition-all duration-300 ease-in-out',
-                openItemId === item.id ? 'grid-rows-[1fr]' : 'grid-rows-[0fr]'
-              )}
-            >
-              <div className='overflow-hidden'>
-                <div className='px-8 py-6'>
-                  <div className='whitespace-pre-line text-[13pt] text-[#6A7A87]'>
-                    {item.answer}
+                <div className='overflow-hidden'>
+                  <div className='px-8 py-6'>
+                    <div
+                      dangerouslySetInnerHTML={{ __html: item.answer }}
+                      className='text-[13pt] text-[#6A7A87] [&_p]:mb-4 last:[&_p]:mb-0'
+                    />
                   </div>
                 </div>
               </div>
-            </div>
-          </li>
-        ))}
-      </ul>
+            </li>
+          ))}
+        </ul>
 
-      {hasMore && (
-        <div className='mt-8 text-center'>
-          <button
-            type='button'
-            onClick={handleLoadMore}
-            className='inline-flex items-center text-[18px] font-medium'
-          >
-            + 더보기
-          </button>
-        </div>
-      )}
-    </div>
+        {hasMore && (
+          <div className='mt-8 text-center'>
+            <button
+              type='button'
+              onClick={handleLoadMore}
+              className='inline-flex items-center text-[18px] font-medium'
+            >
+              + 더보기
+            </button>
+          </div>
+        )}
+      </div>
+    </Suspense>
   );
 }

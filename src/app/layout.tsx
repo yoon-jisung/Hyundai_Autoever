@@ -3,6 +3,7 @@ import { Inter } from 'next/font/google';
 import './globals.css';
 import { Header } from '@/components/layout/Header';
 import localFont from 'next/font/local';
+import { Providers } from './providers';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -82,8 +83,10 @@ export default function RootLayout({
   return (
     <html lang='ko'>
       <body className={`${kiaSignature.variable} font-kia`}>
-        <Header />
-        <div className='pt-16'>{children}</div>
+        <Providers>
+          <Header />
+          <div className='pt-16'>{children}</div>
+        </Providers>
       </body>
     </html>
   );
