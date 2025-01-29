@@ -3,42 +3,48 @@
 import { useFaqStore } from '@/store/faq';
 import { cn } from '@/lib/utils';
 
-const categories = [
-  { id: 0, name: '전체', count: 23 },
-  { id: 1, name: '서비스 상품', count: 5 },
-  { id: 2, name: '도입 상담', count: 8 },
-  { id: 3, name: '계약', count: 6 },
+const introCategories = [
+  { id: 0, name: '전체' },
+  { id: 1, name: '서비스 상품' },
+  { id: 2, name: '도입 상담' },
+  { id: 3, name: '계약' },
+];
+
+const usageCategories = [
+  { id: 0, name: '전체' },
+  { id: 1, name: '가입문의' },
+  { id: 2, name: '비즈니스(업무용)' },
+  { id: 3, name: '사고/보험' },
+  { id: 4, name: '예약/결제' },
+  { id: 5, name: '차량문의' },
+  { id: 6, name: '충전' },
+  { id: 7, name: '쿠폰/기타' },
 ];
 
 export function FaqCategories() {
-  const { selectedCategory, setSelectedCategory } = useFaqStore();
+  const { selectedCategory, setSelectedCategory, activeTab } = useFaqStore();
+
+  const categories = activeTab === 'intro' ? introCategories : usageCategories;
 
   return (
-    <div className='flex flex-wrap gap-3'>
+    <div className='filter flex flex-wrap gap-2'>
       {categories.map((category) => (
-        <button
+        <label
           key={category.id}
-          type='button'
-          onClick={() => setSelectedCategory(category.id)}
           className={cn(
-            'group relative h-[52px] min-w-[120px] rounded-[52px] border border-transparent px-8 text-[15px] font-medium transition-all',
-            selectedCategory === category.id
-              ? 'border-mint-900 bg-mint-900 text-white hover:bg-mint-700'
-              : 'bg-gray-50 text-gray-500 hover:border-gray-200'
+            'group relative inline-flex h-12 cursor-pointer items-center rounded-full px-5 text-[20px] font-bold transition-all',
+            selectedCategory === category.id ? 'bg-mint-900 text-white' : 'bg-none'
           )}
         >
-          <span className='relative flex items-center justify-center gap-1'>
-            <span>{category.name}</span>
-            <span
-              className={cn(
-                'transition-colors',
-                selectedCategory === category.id ? 'text-white' : 'text-gray-400'
-              )}
-            >
-              {category.count}
-            </span>
-          </span>
-        </button>
+          <input
+            type='radio'
+            name='filter'
+            className='hidden'
+            checked={selectedCategory === category.id}
+            onChange={() => setSelectedCategory(category.id)}
+          />
+          <i className='not-italic'>{category.name}</i>
+        </label>
       ))}
     </div>
   );
