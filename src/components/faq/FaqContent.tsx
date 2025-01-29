@@ -4,23 +4,33 @@ import { useState } from 'react';
 import { FaqCategories } from './FaqCategories';
 import { FaqList } from './FaqList';
 import { FaqSearch } from './FaqSearch';
-import { FaqTabs } from './FaqTabs';
+
 import { FaqSupport } from './FaqSupport';
 import { FaqProcess } from './FaqProcess';
 import { WibleBizAppDownload } from '@/components/common/WibleBizAppDownload';
+import { FaqSearchResult } from './FaqSearchResult';
 
 export function FaqContent() {
+  const [keyword, setKeyword] = useState('');
+
+  const handleResetKeyword = () => {
+    setKeyword('');
+  };
+
   return (
     <div>
       {/* 검색 영역 */}
       <div className='bg-gray-50 px-8 py-12'>
         <div className='mx-auto max-w-[600px]'>
-          <FaqSearch />
+          <FaqSearch keyword={keyword} setKeyword={setKeyword} />
         </div>
       </div>
 
       {/* FAQ 메인 영역 */}
       <div className='mx-auto max-w-[1200px] py-8'>
+        {/* 검색 결과 */}
+        <FaqSearchResult onReset={handleResetKeyword} />
+
         {/* 카테고리 */}
         <div className='mb-12'>
           <FaqCategories />

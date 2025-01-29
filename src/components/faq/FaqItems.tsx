@@ -21,9 +21,9 @@ export function FaqItems() {
   const [openItemId, setOpenItemId] = useState<number | null>(null);
 
   const filteredItems =
-    selectedCategory === 0
+    selectedCategory === 'ALL'
       ? faqItems
-      : faqItems.filter((item) => item.categoryId === selectedCategory);
+      : faqItems.filter((item) => Number(item.categoryId) === Number(selectedCategory));
 
   return (
     <div className='space-y-4'>

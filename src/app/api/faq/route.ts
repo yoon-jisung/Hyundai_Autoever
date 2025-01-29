@@ -309,6 +309,7 @@ export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
   const tab = searchParams.get('tab');
   const categoryId = searchParams.get('faqCategoryID');
+  const keyword = searchParams.get('keyword');
   const limit = Number(searchParams.get('limit')) || 10;
   const offset = Number(searchParams.get('offset')) || 0;
 
@@ -327,6 +328,15 @@ export async function GET(request: Request) {
     filteredItems = filteredItems.filter((item) => item.subCategoryName === subCategory);
   }
 
+  if (keyword) {
+    const searchKeyword = keyword.toLowerCase();
+    filteredItems = filteredItems.filter((item) => {
+      const questionMatch = item.question.toLowerCase().includes(searchKeyword);
+      const answerMatch = stripHtml(item.answer).toLowerCase().includes(searchKeyword);
+      return questionMatch || answerMatch;
+    });
+  }
+
   const items = filteredItems.slice(offset, offset + limit);
   const totalRecord = filteredItems.length;
 
@@ -340,4 +350,8 @@ export async function GET(request: Request) {
     },
     items,
   });
+}
+
+function stripHtml(html: string): string {
+  return html.replace(/<[^>]*>/g, '');
 }

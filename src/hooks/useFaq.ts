@@ -1,15 +1,35 @@
-import useSWR from 'swr';
+import { useQuery } from '@tanstack/react-query';
+import { getFaqs } from '@/api/faq';
+import { FaqResponse } from '@/types/faq';
 
-export function useFaq(categoryId: string) {
-  const { data, error, isLoading } = useSWR(`/api/faq?tab=USAGE&categoryId=${categoryId}`, {
-    revalidateOnFocus: false,
-    keepPreviousData: true, // 이전 데이터 유지
-    suspense: true,
+interface SearchData {
+  keyword: string;
+}
+
+export function useFaqSearch(activeTab: string, selectedCategory: string) {
+  return useQuery<SearchData>({
+    queryKey: ['faqs', activeTab, selectedCategory, 'search'],
+    initialData: { keyword: '' },
   });
+}
 
-  return {
-    faqData: data,
-    isError: error,
-    isLoading,
-  };
+export function useFaqTotal(activeTab: string, selectedCategory: string, keyword: string) {
+  return useQuery<FaqResponse>({
+    queryKey: ['faqs', activeTab, selectedCategory, 'total', keyword],
+    queryFn: () => getFaqs(activeTab, 0, 1, selectedCategory, keyword),
+    staleTime: 1000 * 60,
+  });
+}
+
+export function useFaqList(
+  activeTab: string,
+  selectedCategory: string,
+  visibleCount: number,
+  keyword: string
+) {
+  return useQuery<FaqResponse>({
+    queryKey: ['faqs', activeTab, selectedCategory, visibleCount, keyword],
+    queryFn: () => getFaqs(activeTab, 0, visibleCount, selectedCategory, keyword),
+    staleTime: 1000 * 60,
+  });
 }

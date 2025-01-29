@@ -12,7 +12,8 @@ export async function getFaqs(
   tab: TabType,
   offset = 0,
   limit = 10,
-  categoryId?: string
+  categoryId?: string,
+  keyword?: string
 ): Promise<FaqResponse> {
   const params = new URLSearchParams({
     tab,
@@ -22,6 +23,10 @@ export async function getFaqs(
 
   if (categoryId && categoryId !== 'ALL') {
     params.append('faqCategoryID', categoryId);
+  }
+
+  if (keyword) {
+    params.append('keyword', keyword);
   }
 
   const response = await fetch(`/api/faq?${params}`);
