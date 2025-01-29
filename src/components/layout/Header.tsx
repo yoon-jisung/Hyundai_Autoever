@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { cn } from '@/lib/utils';
 import Logo from '@/assets/logo.svg';
 
@@ -15,16 +15,29 @@ const menuItems = [
 
 export function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 0);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   return (
-    <header className='fixed left-0 right-0 top-0 z-[100] h-[72px]'>
+    <header
+      className={cn(
+        'fixed left-0 right-0 top-0 z-[9999] h-[80px] bg-white transition-shadow',
+        isScrolled && 'shadow-sm'
+      )}
+    >
       <div className='inner relative mx-auto flex h-full max-w-[1660px] items-center justify-between px-8'>
-   
         <Link href='/' className='logo relative z-[101]'>
           <Image src={Logo} alt='Wible BIZ' width={160} height={48} priority />
         </Link>
 
-  
         <nav className='hidden h-full md:block'>
           <ul className='flex h-full'>
             {menuItems.map((item) => (
@@ -48,7 +61,6 @@ export function Header() {
             ))}
           </ul>
         </nav>
-
 
         <span className='util relative z-[101] md:hidden'>
           <button
@@ -81,7 +93,6 @@ export function Header() {
           </button>
         </span>
 
-    
         {isMenuOpen && (
           <div className='fixed inset-0 top-[72px] z-[100] bg-white md:hidden'>
             <nav className='border-t border-gray-200'>
